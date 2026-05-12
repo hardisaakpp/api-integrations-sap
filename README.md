@@ -53,7 +53,7 @@ celery -A src.celery_app beat --loglevel=info
 
 > Requisito para Celery: Redis ejecutándose.
 
-**Stack en Docker (opcional, misma rama / CI):** Redis + MinIO + API + Celery worker + beat con el perfil `app`. Útil para validar el flujo completo en contenedor. Ver [docs/DOCKER_COMPOSE.md](docs/DOCKER_COMPOSE.md) y `.\scripts\docker-app-up.ps1`.
+**Stack en Docker (opcional, misma rama / CI):** Redis + MinIO + API + Celery worker + beat con el perfil `app`. Útil para validar el flujo completo en contenedor. Red compartida con el front en Docker: `mba3-nexus_edge` y host `mba3-api`. Ver [docs/DOCKER_COMPOSE.md](docs/DOCKER_COMPOSE.md) y `.\scripts\docker-app-up.ps1`.
 
 **Opción recomendada (PowerShell):**
 

@@ -59,6 +59,36 @@ docker logs -f mba3-celery-worker
 
 El cliente S3 usa `FILE_STORAGE_ENDPOINT=http://minio:9000` dentro de Docker. Las operaciones servidor–MinIO funcionan. Si en el futuro se devolvieran al navegador URLs firmadas con host `minio`, el navegador no las resolvería; en ese caso haría falta un endpoint “público” separado o proxy. Hoy el flujo principal no depende de eso para el día a día.
 
+## Enlace con scnexus-front (Docker en otro repo)
+
+Este backend expone la API en el contenedor con nombre fijo **`mba3-api`** y publica **`8000`** en el host.
+
+Para que el **frontend en Docker** (compose distinto, p. ej. `scnexus-front`) pueda llamar al API **desde dentro de la red Docker** (SSR, `nginx` hacia upstream, healthchecks, scripts de entrypoint), ambos stacks deben compartir la red bridge con nombre fijo **`mba3-nexus_edge`**.
+
+- En **mba3-consultas**, la red se define en `docker-compose.yml` y **`redis`** y **`api`** (perfil `app`) están conectados a ella. Así la red **se crea** aunque solo levantes Redis + MinIO (`docker compose up -d`), sin obligar al perfil `app`.
+- En **scnexus-front**, declara la red como externa y conecta tu servicio web:
+
+```yaml
+networks:
+  mba3-nexus_edge:
+    external: true
+    name: mba3-nexus_edge
+
+services:
+  tu-servicio-frontend:
+    networks:
+      - default
+      - mba3-nexus_edge
+```
+
+URL interna del API: **`http://mba3-api:8000`**.
+
+**SPA / Vite (fetch desde el navegador):** el JavaScript corre en la máquina del usuario, no en el contenedor; ahí **`mba3-api` no resuelve DNS**. Usa la URL publicada en el host, p. ej. **`http://localhost:8000`**, en las variables `VITE_*` que inyectes al **build** o al runtime que lea el navegador. El proxy de Vite en desarrollo en host sigue apuntando a `localhost:8000` como hasta ahora.
+
+**CORS:** con `ENABLE_CORS_RESTRICTION=false` (típico en desarrollo) el backend acepta orígenes amplios. Si activas restricción, añade en `.env` los orígenes del front (p. ej. `http://localhost:5173`, `http://localhost:4173`).
+
+Fragmento de ejemplo listo para copiar: [examples/scnexus-front-docker-network.attach.yml](examples/scnexus-front-docker-network.attach.yml).
+
 ## Privacidad / CI
 
 Evita ejecutar `docker compose config` en entornos con `.env.develop` real y compartir la salida: Compose expande `env_file` y puede imprimir secretos.

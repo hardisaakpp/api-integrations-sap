@@ -16,8 +16,18 @@
 # Puertos: Redis 6379, MinIO API 9100, consola MinIO 9101, API 8000.
 # Dentro de la red Docker, la API y Celery usan redis://redis:6379/0 y
 # http://minio:9000 (sobrescritos por environment; python-dotenv no pisa vars ya fijadas).
+#
+# Red compartida con scnexus-front (otro docker-compose): mba3-nexus_edge
+# La API y Redis se anclan ahí para que la red exista también sin perfil "app".
+# Desde el contenedor del front: http://mba3-api:8000 . Desde el navegador del usuario:
+# http://localhost:8000 (mapeo de puerto). Ver docs/DOCKER_COMPOSE.md.
 
 name: mba3-consultas
+
+networks:
+  nexus-edge:
+    name: mba3-nexus_edge
+    driver: bridge
 
 x-app-common: &app-common
   build:
@@ -45,6 +55,9 @@ x-app-common: &app-common
 services:
   redis:
     image: redis:7-alpine
+    networks:
+      - default
+      - nexus-edge
     ports:
       - "6379:6379"
     volumes:
@@ -77,6 +90,9 @@ services:
   api:
     <<: *app-common
     container_name: mba3-api
+    networks:
+      - default
+      - nexus-edge
     ports:
       - "8000:8000"
     command:
