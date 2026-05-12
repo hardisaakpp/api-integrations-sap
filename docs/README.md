@@ -13,11 +13,12 @@
 | **Actualizar backend en producción (Linux)** | **[DEPLOY_PRODUCCION.md](DEPLOY_PRODUCCION.md)** 🐧 |
 | **Desplegar migraciones de BD** | **[DEPLOY_MIGRATIONS.md](DEPLOY_MIGRATIONS.md)** 🗄️ |
 | Activar procesos automáticos (Celery) | [CELERY_QUICKSTART.md](CELERY_QUICKSTART.md) |
+| API + Celery + Redis + MinIO en Docker (Compose) | [DOCKER_COMPOSE.md](DOCKER_COMPOSE.md) |
 | Usar el sistema de homologaciones SKU | [HOMOLOGACIONES_SKU.md](HOMOLOGACIONES_SKU.md) |
 
 ---
 
-## 📖 Documentación Esencial (11 archivos)
+## 📖 Documentación Esencial (12 archivos)
 
 ### 1. **[CONFIGURACION.md](CONFIGURACION.md)** ⚙️
 Configuración completa del proyecto

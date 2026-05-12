@@ -113,7 +113,9 @@ journalctl -u odc-sap-test -n 100 --no-pager
 
 ### Redis y MinIO (`docker-compose.yml` del repo)
 
-Este compose **solo** define servicios de apoyo (Redis, MinIO), alineados con variables como `REDIS_URL` y `FILE_STORAGE_ENDPOINT` en tu `.env` de test.
+Por defecto el compose define **solo** apoyo (Redis, MinIO), alineados con variables como `REDIS_URL` y `FILE_STORAGE_ENDPOINT` en tu `.env` de test.
+
+Opcionalmente existe el **perfil `app`**: API FastAPI + Celery worker + Celery beat (misma imagen que el `Dockerfile`), para levantar el flujo de aplicación en contenedores además de Redis y MinIO. Detalle, variables que sobrescriben Redis/MinIO dentro de la red Docker y advertencias (SQL en `localhost`, secretos en `docker compose config`): [DOCKER_COMPOSE.md](DOCKER_COMPOSE.md).
 
 - **Uso recomendado** (segundo plano, no bloquea la sesión SSH):
 
