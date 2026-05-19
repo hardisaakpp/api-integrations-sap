@@ -22,7 +22,7 @@
 # Desde el contenedor del front: http://mba3-api:8000 . Desde el navegador del usuario:
 # http://localhost:8000 (mapeo de puerto). Ver docs/DOCKER_COMPOSE.md.
 
-name: mba3-consultas
+name: mba3-consultas-dev
 
 networks:
   nexus-edge:

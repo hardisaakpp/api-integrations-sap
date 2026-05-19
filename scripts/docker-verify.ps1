@@ -17,8 +17,8 @@ $requiredContainers = @(
     "mba3-api",
     "mba3-celery-worker",
     "mba3-celery-beat",
-    "mba3-consultas-redis-1",
-    "mba3-consultas-minio-1"
+    "mba3-consultas-dev-redis-1",
+    "mba3-consultas-dev-minio-1"
 )
 
 function Write-Check {
@@ -33,7 +33,7 @@ function Write-Check {
 $results = @()
 
 Write-Host ""
-Write-Host "=== Verificación stack Docker (mba3-consultas) ===" -ForegroundColor Cyan
+Write-Host "=== Verificación stack Docker (mba3-consultas-dev) ===" -ForegroundColor Cyan
 Write-Host ""
 
 # --- Contenedores ---
