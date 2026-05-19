@@ -25,6 +25,17 @@ El resto de variables (SQL Server, SAP, MBA3, JWT, etc.) salen de tu `.env.devel
 
 La API en contenedor debe poder alcanzar **MBA3**, **SAP Service Layer** y **SQL Server** por red (VPN, firewall, DNS). Eso no lo resuelve Docker por sí solo.
 
+## Verificación del stack (revisión rápida)
+
+Con el perfil `app` en marcha:
+
+```powershell
+.\scripts\docker-verify.ps1
+.\scripts\docker-verify.ps1 -ShowLogErrors   # timeouts MBA3, etc.
+```
+
+Comprueba los 5 contenedores, `/health`, Redis/MinIO/SQL desde `mba3-api`, tareas Celery registradas y beat. No sustituye pruebas manuales con JWT (upload-async, proceso SAP, cruce).
+
 ## Comandos útiles
 
 ```powershell
