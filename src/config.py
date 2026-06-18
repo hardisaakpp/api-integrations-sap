@@ -1,4 +1,4 @@
-"""
+﻿"""
 Configuracion y constantes para la API de consultas MBA3.
 """
 
@@ -184,8 +184,8 @@ SAP_SERVICE_LAYER_USERNAME = SAP_USER
 SAP_SERVICE_LAYER_PASSWORD = SAP_PASSWORD
 SAP_SERVICE_LAYER_DATABASE = SAP_COMPANY_DB
 
-# Habilitar envÃ­o de ODC a SAP Service Layer
-ENABLE_SAP_SERVICE_LAYER = os.getenv("ENABLE_SAP_SERVICE_LAYER", "false").lower() == "true"
+# Habilitar integración con SAP (a través del middleware)
+ENABLE_SAP_INTEGRATION = os.getenv("ENABLE_SAP_INTEGRATION", "false").lower() == "true"
 
 # Timeout para requests a Service Layer (segundos)
 SAP_SERVICE_LAYER_TIMEOUT = int(os.getenv("SAP_SERVICE_LAYER_TIMEOUT", "30"))
@@ -301,9 +301,9 @@ if ENVIRONMENT == "production":
             )
     
     # Advertencia sobre SSL deshabilitado
-    if ENABLE_SAP_SERVICE_LAYER and not SAP_SERVICE_LAYER_VERIFY_SSL:
+    if ENABLE_SAP_INTEGRATION and not SAP_SERVICE_LAYER_VERIFY_SSL:
         logger.warning("=" * 70)
-        logger.warning("âš ï¸ ADVERTENCIA DE SEGURIDAD EN PRODUCCIÃ“N")
+        logger.warning("⚠️ ADVERTENCIA DE SEGURIDAD EN PRODUCCIÓN")
         logger.warning("   SAP_SERVICE_LAYER_VERIFY_SSL=false")
         logger.warning("   La verificaciÃ³n SSL estÃ¡ DESHABILITADA")
         logger.warning("   Esto es INSEGURO en producciÃ³n")
@@ -317,26 +317,26 @@ elif ENVIRONMENT == "development":
     if not MBA3_BASE_URL or not MBA3_SERVICE_CODE or not MBA3_SERVICE_PASSWORD:
         if not warnings_found:
             logger.warning("=" * 70)
-            logger.warning("âš ï¸ CONFIGURACIÃ“N INCOMPLETA (Desarrollo)")
+            logger.warning("⚠️ CONFIGURACIÓN INCOMPLETA (Desarrollo)")
             warnings_found = True
         logger.warning("   Credenciales MBA3 no configuradas en .env")
     
     if ENABLE_JWT_AUTH and (not JWT_SECRET or JWT_SECRET == 'clave_super_secreta_para_jwt_12345'):
         if not warnings_found:
             logger.warning("=" * 70)
-            logger.warning("âš ï¸ CONFIGURACIÃ“N INCOMPLETA (Desarrollo)")
+            logger.warning("⚠️ CONFIGURACIÓN INCOMPLETA (Desarrollo)")
             warnings_found = True
         logger.warning("   JWT_SECRET usando valor por defecto (inseguro)")
     
-    if ENABLE_SAP_SERVICE_LAYER and not SAP_SERVICE_LAYER_VERIFY_SSL:
+    if ENABLE_SAP_INTEGRATION and not SAP_SERVICE_LAYER_VERIFY_SSL:
         if not warnings_found:
             logger.warning("=" * 70)
-            logger.warning("âš ï¸ CONFIGURACIÃ“N INCOMPLETA (Desarrollo)")
+            logger.warning("⚠️ CONFIGURACIÓN INCOMPLETA (Desarrollo)")
             warnings_found = True
         logger.warning("   SAP SSL verification deshabilitada")
     
     if warnings_found:
-        logger.warning("   Esto estÃ¡ OK para desarrollo, pero corrige en producciÃ³n")
+        logger.warning("   Esto está OK para desarrollo, pero corrige en producción")
         logger.warning("=" * 70)
 
 # ============================================================================

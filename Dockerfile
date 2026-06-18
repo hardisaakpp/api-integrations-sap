@@ -1,11 +1,11 @@
 # MBA3 Consultas - Imagen para API y Celery
 # Usa la misma imagen para api y celery-worker; el comando se sobrescribe en docker-compose.
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 WORKDIR /app
 
 # ODBC Driver 18 para SQL Server (alineado con SQL_SERVER_DRIVER en producción)
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     unixodbc-dev \
     curl \
     gnupg \

@@ -12,7 +12,7 @@ from typing import Dict, Any, Optional, List
 
 from src.config import (
     SAP_MIDDLEWARE_URL,
-    ENABLE_SAP_SERVICE_LAYER,
+    ENABLE_SAP_INTEGRATION,
     SAP_SERVICE_LAYER_TIMEOUT,
 )
 from src.exceptions import SAPDataMasterError
@@ -25,11 +25,11 @@ class SAPServiceLayerClient:
 
     def __init__(self):
         self.base_url = SAP_MIDDLEWARE_URL.rstrip("/")
-        self.enabled = ENABLE_SAP_SERVICE_LAYER
+        self.enabled = ENABLE_SAP_INTEGRATION
         self.timeout = SAP_SERVICE_LAYER_TIMEOUT
 
         if not self.enabled:
-            logger.warning("⚠️ SAP Service Layer deshabilitado (ENABLE_SAP_SERVICE_LAYER=False)")
+            logger.warning("⚠️ SAP Service Layer deshabilitado (ENABLE_SAP_INTEGRATION=False)")
 
     # ─── HTTP helpers ──────────────────────────────────────────────────────────
 

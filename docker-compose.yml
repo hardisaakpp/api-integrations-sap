@@ -45,6 +45,7 @@ x-app-common: &app-common
     ENVIRONMENT: development
     REDIS_URL: redis://redis:6379/0
     FILE_STORAGE_ENDPOINT: http://minio:9000
+    SAP_MIDDLEWARE_URL: http://host.docker.internal:5250
   env_file:
     - .env.develop
   volumes:

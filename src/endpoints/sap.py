@@ -16,7 +16,7 @@ from src.database.repositories.orden_compra_repository import OrdenCompraReposit
 from src.database.repositories.sap_integration_log_repository import SAPIntegrationLogRepository
 from src.database.services.oc_sap_service import OCSAPService
 from src.database.connection import get_db_connection, get_db_connection_context
-from src.config import ENABLE_SAP_QUERIES, SAP_LINKED_SERVER, ENABLE_SAP_SERVICE_LAYER
+from src.config import ENABLE_SAP_QUERIES, SAP_LINKED_SERVER, ENABLE_SAP_INTEGRATION
 from src.security.jwt_auth import verify_jwt_token, require_permission
 
 logger = logging.getLogger(__name__)
@@ -102,7 +102,7 @@ def register_sap_endpoints(app: FastAPI):
           - `SAP_SERVICE_LAYER_USERNAME`
           - `SAP_SERVICE_LAYER_PASSWORD`
           - `SAP_SERVICE_LAYER_DATABASE`
-          - `ENABLE_SAP_SERVICE_LAYER=true`
+          - `ENABLE_SAP_INTEGRATION=true`
         
         Returns:
             JSON con metadata del proceso de envío a SAP
@@ -115,15 +115,15 @@ def register_sap_endpoints(app: FastAPI):
         logger.info(f"🚀 INTEGRAR-SAP iniciado (usuario: {username}, fuente: {source})")
         
         try:
-            # Verificar si SAP Service Layer está habilitado
-            if not ENABLE_SAP_SERVICE_LAYER:
-                logger.warning("⚠️ SAP Service Layer está deshabilitado")
+            # Verificar si la integración SAP está habilitada
+            if not ENABLE_SAP_INTEGRATION:
+                logger.warning("⚠️ Integración SAP deshabilitada (ENABLE_SAP_INTEGRATION=false)")
                 return JSONResponse(
                     status_code=400,
                     content={
                         "status": "error",
-                        "message": "SAP Service Layer está deshabilitado",
-                        "hint": "Configura ENABLE_SAP_SERVICE_LAYER=true en .env"
+                        "message": "Integración SAP deshabilitada",
+                        "hint": "Configura ENABLE_SAP_INTEGRATION=true en .env"
                     },
                     headers={
                         "X-Source": source,
